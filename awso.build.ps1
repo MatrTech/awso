@@ -4,7 +4,7 @@ param(
 )
 
 function Update-Version {
-    $psd1Path = 'quickpath.psd1'
+    $psd1Path = 'awso.psd1'
     
     if (-not (Test-Path $psd1Path)) {
         throw "Manifest file not found at $psd1Path"
@@ -41,14 +41,14 @@ task Build -Jobs Clean, {
     
     Update-Version
 
-    New-Item -Path './output/quickpath' -ItemType Directory -Force | Out-Null
-    Copy-Item -Path './quickpath.psd1' -Destination './output/quickpath/'
-    Copy-Item -Path './quickpath.psm1' -Destination './output/quickpath/'
+    New-Item -Path './output/awso' -ItemType Directory -Force | Out-Null
+    Copy-Item -Path './awso.psd1' -Destination './output/awso/'
+    Copy-Item -Path './awso.psm1' -Destination './output/awso/'
 
-    New-Item -Path './output/quickpath/private' -ItemType Directory -Force | Out-Null
-    New-Item -Path './output/quickpath/classes' -ItemType Directory -Force | Out-Null
-    Copy-Item -Path './private/*' -Destination './output/quickpath/private/'
-    Copy-Item -Path './classes/*' -Destination './output/quickpath/classes/'
+    New-Item -Path './output/awso/private' -ItemType Directory -Force | Out-Null
+    New-Item -Path './output/awso/classes' -ItemType Directory -Force | Out-Null
+    Copy-Item -Path './private/*' -Destination './output/awso/private/'
+    Copy-Item -Path './classes/*' -Destination './output/awso/classes/'
 }
 
 task Test {
@@ -71,7 +71,7 @@ task Test {
 
 task Package -Jobs Build, {
     Write-Host 'Packaging module...'
-    Compress-Archive -Path './output/quickpath/*' -DestinationPath './output/quickpath.zip'
+    Compress-Archive -Path './output/awso/*' -DestinationPath './output/awso.zip'
 }
 
 task Publish -Jobs Package, {
@@ -82,13 +82,13 @@ task Publish -Jobs Package, {
         throw "NuGet API Key is not set. Please set the NUGET_API_KEY environment variable."
     }
 
-    Publish-Module -Path '.\output\quickpath' -NuGetApiKey $apiKey
+    Publish-Module -Path '.\output\awso' -NuGetApiKey $apiKey
 }
 
 task Refresh -Jobs Build, {
     Write-Host 'Refreshing module...'
 
-    Import-Module './output/quickpath/quickpath.psd1' -Force
+    Import-Module './output/awso/awso.psd1' -Force
 }
 
 task . Clean, Build, Test, Package
