@@ -45,10 +45,10 @@ task Build -Jobs Clean, {
     Copy-Item -Path './awso.psd1' -Destination './output/awso/'
     Copy-Item -Path './awso.psm1' -Destination './output/awso/'
 
-    New-Item -Path './output/awso/private' -ItemType Directory -Force | Out-Null
-    New-Item -Path './output/awso/classes' -ItemType Directory -Force | Out-Null
-    Copy-Item -Path './private/*' -Destination './output/awso/private/'
-    Copy-Item -Path './classes/*' -Destination './output/awso/classes/'
+    # New-Item -Path './output/awso/private' -ItemType Directory -Force | Out-Null
+    # New-Item -Path './output/awso/classes' -ItemType Directory -Force | Out-Null
+    # Copy-Item -Path './private/*' -Destination './output/awso/private/'
+    # Copy-Item -Path './classes/*' -Destination './output/awso/classes/'
 }
 
 task Test {
